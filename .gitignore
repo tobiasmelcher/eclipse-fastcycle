@@ -1,0 +1,3 @@
+# Build output and fetched binaries are never committed (see README).
+lib/*.jar
+lib/classes/

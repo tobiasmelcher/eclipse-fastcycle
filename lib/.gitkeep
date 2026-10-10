@@ -1,0 +1,3 @@
+# Created by the build steps in README.md (javac/jar output, ECJ copy).
+# This placeholder keeps the directory in git; the jars themselves are
+# gitignored (see ../.gitignore) and must be built/fetched per machine.
