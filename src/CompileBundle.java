@@ -87,17 +87,19 @@ public class CompileBundle {
 			String bsn = mod.getFileName().toString();
 			Path target = mod.resolve("target"); //$NON-NLS-1$
 			Path jar = null;
+			String runtime = Files.readString(testwork).replace("\\:", ":").replace('\\', '/'); //$NON-NLS-1$ //$NON-NLS-2$
 			try (var stream = Files.newDirectoryStream(target, bsn + "-*.jar")) { //$NON-NLS-1$
 				for (Path candidate : stream) {
 					String name = candidate.getFileName().toString();
-					if (!name.contains("sources") && !name.contains("javadoc")) { //$NON-NLS-1$ //$NON-NLS-2$
+					String location = candidate.toAbsolutePath().toString().replace('\\', '/');
+					if (!name.contains("sources") && !name.contains("javadoc") && runtime.contains(location)) { //$NON-NLS-1$ //$NON-NLS-2$
 						jar = candidate;
 						break;
 					}
 				}
 			}
 			if (jar == null) {
-				System.err.println("ERROR: packaged bundle jar not found"); //$NON-NLS-1$
+				System.err.println("ERROR: packaged bundle jar is not part of the test runtime"); //$NON-NLS-1$
 				System.exit(1);
 			}
 			System.out.println("Updating jar: " + jar); //$NON-NLS-1$
